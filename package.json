@@ -10,7 +10,8 @@
     "eslint": "^8.57.0",
     "@repo/eslint-config": "*",
     "prettier": "^3.2.5",
-    "turbo": "latest"
+    "turbo": "latest",
+    "vite-tsconfig-paths": "^4.3.1"
   },
   "packageManager": "yarn@1.22.19",
   "workspaces": [

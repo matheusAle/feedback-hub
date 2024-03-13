@@ -1,0 +1,29 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "license": "MIT",
+  "scripts": {
+    "dev": "PORT=7001 nodemon --exec \"node -r esbuild-register ./src/server.ts\" -e .ts",
+    "lint": "tsc --noEmit && eslint \"src/**/*.ts*\" --max-warnings 0",
+    "build": "tsc"
+  },
+  "dependencies": {
+    "@fastify/one-line-logger": "^1.2.0",
+    "@graphql-tools/load-files": "^7.0.0",
+    "@graphql-tools/merge": "^9.0.3",
+    "add": "^2.0.6",
+    "esbuild": "^0.20.1",
+    "esbuild-register": "^3.5.0",
+    "fastify": "^4.26.2",
+    "graphql": "^16.8.1",
+    "graphql-scalars": "^1.22.5",
+    "mercurius": "^13.4.0",
+    "mercurius-codegen": "^5.0.4",
+    "yarn": "^1.22.22"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.27",
+    "nodemon": "^3.1.0",
+    "ts-node": "^10.9.2"
+  }
+}
