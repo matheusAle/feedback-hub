@@ -17,6 +17,7 @@ const documents = {
     "\n    mutation Logout {\n      logout\n    }\n  ": types.LogoutDocument,
     "\n    mutation CreateUser($input: CreateUserInput!) {\n      createUser(input: $input) {\n        token\n        user {\n          id\n          name\n          username\n        }\n      }\n    }\n  ": types.CreateUserDocument,
     "\n    query Events {\n      events {\n        id\n        name\n      }\n    }\n  ": types.EventsDocument,
+    "\n    mutation CreateFeedback($input: CreateFeedbackInput!) {\n      createFeedback(input: $input) {\n        id\n      }\n    }\n  ": types.CreateFeedbackDocument,
     "\n  query Events {\n    events {\n      id\n      name\n    }\n  }\n": types.EventsDocument,
 };
 
@@ -50,6 +51,10 @@ export function graphql(source: "\n    mutation CreateUser($input: CreateUserInp
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "\n    query Events {\n      events {\n        id\n        name\n      }\n    }\n  "): (typeof documents)["\n    query Events {\n      events {\n        id\n        name\n      }\n    }\n  "];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n    mutation CreateFeedback($input: CreateFeedbackInput!) {\n      createFeedback(input: $input) {\n        id\n      }\n    }\n  "): (typeof documents)["\n    mutation CreateFeedback($input: CreateFeedbackInput!) {\n      createFeedback(input: $input) {\n        id\n      }\n    }\n  "];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

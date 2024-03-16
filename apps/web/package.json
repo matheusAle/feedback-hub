@@ -11,10 +11,12 @@
     "typecheck": "tsc"
   },
   "dependencies": {
+    "@headlessui/react": "^1.7.18",
     "@remix-run/node": "^2.8.1",
     "@remix-run/react": "^2.8.1",
     "@remix-run/serve": "^2.8.1",
     "clsx": "^2.1.0",
+    "framer-motion": "^11.0.14",
     "graphql": "^16.8.1",
     "graphql-request": "^6.1.0",
     "isbot": "^4.1.0",
