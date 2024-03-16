@@ -1,0 +1,33 @@
+type Feedback {
+    id: String!
+    content: String!
+    rate: Int!
+    user: User!
+    event: Event!
+}
+
+
+input CreateFeedbackInput {
+    content: String!
+    rate: Int!
+    eventId: String!
+}
+
+input FeedbacksInput {
+    take: Int!
+    cursor: String
+}
+
+type FeedbacksResponse {
+    data: [Feedback!]!
+    hasMore: Boolean!
+    nextCursor: String
+}
+
+type Mutation {
+    createFeedback(input: CreateFeedbackInput!): Feedback! @auth
+}
+
+type Query {
+    feedbacks(input: FeedbacksInput!): FeedbacksResponse!
+}
