@@ -56,7 +56,7 @@ export const FeedbackFeed = ({ data, total, loadMore, loading }: Props) => {
         </div>
       ))}
 
-      {data.length < total - 1 && (
+      {data.length < total && (
         <div className="flex justify-center">
           <Button
             onClick={loadMore}
@@ -72,7 +72,7 @@ export const FeedbackFeed = ({ data, total, loadMore, loading }: Props) => {
           <p className="text-lg text-neutral-content">No feedbacks yet</p>
         </div>
       )}
-      {data.length === total - 1 && (
+      {data.length === total && (
         <div className="flex justify-center">
           <p className="text-lg text-neutral-content">No more feedbacks</p>
         </div>
