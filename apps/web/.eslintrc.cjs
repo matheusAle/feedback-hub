@@ -8,13 +8,6 @@
 module.exports = {
   root: true,
   extends: ["@repo/eslint-config/index.js"],
-  parserOptions: {
-    ecmaVersion: "latest",
-    sourceType: "module",
-    ecmaFeatures: {
-      jsx: true,
-    },
-  },
   env: {
     browser: true,
     commonjs: true,
@@ -30,7 +23,11 @@ module.exports = {
         "plugin:react/jsx-runtime",
         "plugin:react-hooks/recommended",
         "plugin:jsx-a11y/recommended",
+        "@repo/eslint-config/index.js",
       ],
+      rules: {
+        "react/prop-types": "off",
+      },
       settings: {
         react: {
           version: "detect",
@@ -45,14 +42,13 @@ module.exports = {
         },
       },
     },
-
     // Typescript
     {
       files: ["**/*.{ts,tsx}"],
       plugins: ["@typescript-eslint", "import"],
       parser: "@typescript-eslint/parser",
       settings: {
-        "import/internal-regex": "^~/",
+        "import/internal-regex": "^[@/,@repo/]",
         "import/resolver": {
           node: {
             extensions: [".ts", ".tsx"],
@@ -67,8 +63,10 @@ module.exports = {
         "plugin:import/recommended",
         "plugin:import/typescript",
       ],
+      rules: {
+        "import/no-unresolved": "off",
+      },
     },
-
     // Node
     {
       files: [".eslintrc.cjs"],
