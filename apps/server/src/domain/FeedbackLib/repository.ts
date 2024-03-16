@@ -26,8 +26,9 @@ export const findFeedbackById = async (id: string) => {
 export const findFeedbacks = async ({ take, cursor }: FeedbacksInput) => {
   return db.query.feedbacks.findMany({
     limit: take,
+    orderBy: (posts, { desc }) => desc(posts.createdAt),
     where: cursor
-      ? (feedbacks, { gt }) => gt(feedbacks.createdAt, new Date(cursor))
+      ? (feedbacks, { lt }) => lt(feedbacks.createdAt, new Date(cursor))
       : undefined,
   });
 };

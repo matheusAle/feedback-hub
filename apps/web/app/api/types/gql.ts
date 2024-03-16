@@ -18,7 +18,9 @@ const documents = {
     "\n    mutation CreateUser($input: CreateUserInput!) {\n      createUser(input: $input) {\n        token\n        user {\n          id\n          name\n          username\n        }\n      }\n    }\n  ": types.CreateUserDocument,
     "\n    query Events {\n      events {\n        id\n        name\n      }\n    }\n  ": types.EventsDocument,
     "\n    mutation CreateFeedback($input: CreateFeedbackInput!) {\n      createFeedback(input: $input) {\n        id\n      }\n    }\n  ": types.CreateFeedbackDocument,
+    "\n    query FetchFeedbacks($input: FeedbacksInput!) {\n      feedbacks(input: $input) {\n        nextCursor\n        total\n        data {\n          ...FeedbackFeedItem\n        }\n      }\n    }\n    \n  ": types.FetchFeedbacksDocument,
     "\n  query Events {\n    events {\n      id\n      name\n    }\n  }\n": types.EventsDocument,
+    "\n  fragment FeedbackFeedItem on Feedback {\n    id\n    rate\n    content\n    createdAt\n    user {\n      id\n      username\n    }\n    event {\n      id\n      name\n    }\n  }\n": types.FeedbackFeedItemFragmentDoc,
 };
 
 /**
@@ -58,7 +60,15 @@ export function graphql(source: "\n    mutation CreateFeedback($input: CreateFee
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
+export function graphql(source: "\n    query FetchFeedbacks($input: FeedbacksInput!) {\n      feedbacks(input: $input) {\n        nextCursor\n        total\n        data {\n          ...FeedbackFeedItem\n        }\n      }\n    }\n    \n  "): (typeof documents)["\n    query FetchFeedbacks($input: FeedbacksInput!) {\n      feedbacks(input: $input) {\n        nextCursor\n        total\n        data {\n          ...FeedbackFeedItem\n        }\n      }\n    }\n    \n  "];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
 export function graphql(source: "\n  query Events {\n    events {\n      id\n      name\n    }\n  }\n"): (typeof documents)["\n  query Events {\n    events {\n      id\n      name\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  fragment FeedbackFeedItem on Feedback {\n    id\n    rate\n    content\n    createdAt\n    user {\n      id\n      username\n    }\n    event {\n      id\n      name\n    }\n  }\n"): (typeof documents)["\n  fragment FeedbackFeedItem on Feedback {\n    id\n    rate\n    content\n    createdAt\n    user {\n      id\n      username\n    }\n    event {\n      id\n      name\n    }\n  }\n"];
 
 export function graphql(source: string) {
   return (documents as any)[source] ?? {};

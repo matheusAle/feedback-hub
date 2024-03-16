@@ -26,7 +26,7 @@ export const FormStarRating = ({
         <span className="label-text">{label}</span>
       </label>
 
-      <StarRating rate={rating} setRate={setRating} size="lg" />
+      <StarRating rate={rating} setRate={setRating} size="lg" className="p-2" />
 
       <input
         className="w-[1] h-[1] opacity-0 absolute inset-0 pointer-events-none"

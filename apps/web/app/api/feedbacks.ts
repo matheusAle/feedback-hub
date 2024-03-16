@@ -3,7 +3,12 @@ import {
   CreateFeedbackInput,
   CreateFeedbackMutation,
   CreateFeedbackMutationVariables,
+  FeedbacksInput,
+  FetchFeedbacksQuery,
+  FetchFeedbacksQueryVariables,
 } from "./types/graphql";
+import { FeedbackFeedItemFragment } from "@/features/FeedbackFeed";
+import { client } from "./serverClient";
 
 export const createFeedback = (
   client: GraphQLClient,
@@ -21,6 +26,27 @@ export const createFeedback = (
     CreateFeedbackMutation,
     CreateFeedbackMutationVariables
   >(mutation, { input });
+};
+
+export const fetchFeedbacks = (input: FeedbacksInput) => {
+  const query = gql`
+    query FetchFeedbacks($input: FeedbacksInput!) {
+      feedbacks(input: $input) {
+        nextCursor
+        total
+        data {
+          ...FeedbackFeedItem
+        }
+      }
+    }
+    ${FeedbackFeedItemFragment}
+  `;
+
+  console.log("input", input);
+  return client.request<FetchFeedbacksQuery, FetchFeedbacksQueryVariables>(
+    query,
+    { input },
+  );
 };
 
 export * as FeedbacksApi from "./feedbacks";

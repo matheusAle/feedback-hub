@@ -1,6 +1,7 @@
 import { useAnimation, motion, Variants } from "framer-motion";
 import { useEffect } from "react";
 import styles from "./Star.module.css";
+import clsx from "clsx";
 
 const starVariants: Variants = {
   initial: {
@@ -30,13 +31,28 @@ type StartProps = {
   i: number;
   isHoveringWrapper: boolean;
   isClicked: boolean;
-  size: "md" | "lg";
+  size: "sm" | "md" | "lg";
+  disabled?: boolean;
 };
 
-export const Star = ({ i, isHoveringWrapper, isClicked, size }: StartProps) => {
+export const Star = ({
+  i,
+  isHoveringWrapper,
+  isClicked,
+  size,
+  disabled,
+}: StartProps) => {
   const starControls = useAnimation();
+  const sizeValue = { sm: 16, md: 24, lg: 44 };
 
   useEffect(() => {
+    if (disabled) {
+      if (isClicked) {
+        starControls.set("animate");
+      }
+      return;
+    }
+
     if (isClicked) {
       starControls.start("animate");
     } else if (isHoveringWrapper) {
@@ -44,14 +60,13 @@ export const Star = ({ i, isHoveringWrapper, isClicked, size }: StartProps) => {
     } else {
       starControls.start("initial");
     }
-  }, [isClicked, isHoveringWrapper, starControls]);
+  }, [isClicked, isHoveringWrapper, starControls, disabled]);
 
   return (
     <div className={styles.star}>
       <motion.svg
-        {...(size === "lg"
-          ? { width: "44", height: "44" }
-          : { width: "24", height: "24" })}
+        width={sizeValue[size]}
+        height={sizeValue[size]}
         viewBox="0 0 24 24"
         strokeWidth="1.5"
         fill="none"
@@ -60,7 +75,7 @@ export const Star = ({ i, isHoveringWrapper, isClicked, size }: StartProps) => {
         variants={starVariants}
         animate={starControls}
         custom={{ i, isClicked }}
-        className={"cursor-pointer"}
+        className={clsx({ "cursor-pointer": !disabled })}
       >
         <path stroke="none" d="M0 0h24v24H0z" fill="none" />
         <path
