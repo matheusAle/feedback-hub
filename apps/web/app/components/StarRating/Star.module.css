@@ -1,0 +1,7 @@
+
+
+
+.star {
+    --color: theme('colors.gray.300');
+    --color-active: theme('colors.yellow.500');
+}
