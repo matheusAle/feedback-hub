@@ -1,15 +1,16 @@
-
-
 type Event {
     id: String!
-    title: String!
+    name: String!
 }
 
+input CreateEventInput {
+    name: String!
+}
 
 type Query {
     events: [Event!]!
 }
 
 type Mutation {
-    createEvent(title: String!): Event!
+    createEvent(input: CreateEventInput!): Event!
 }
