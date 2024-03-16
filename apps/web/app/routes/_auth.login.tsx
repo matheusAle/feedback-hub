@@ -1,6 +1,6 @@
 import { Button } from "@/components/Button";
 import { Logo } from "@/components/Logo";
-import { FormField } from "@/components/TextField";
+import { FormField } from "@/components/FormField";
 import { ActionError } from "@/features/ActionError";
 import { useIsActionRunning } from "@/hooks/useIsActionRunning";
 import { AuthService } from "@/services/auth.server";
