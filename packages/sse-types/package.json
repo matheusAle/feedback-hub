@@ -1,0 +1,12 @@
+{
+  "name": "@repo/sse-types",
+  "version": "1.0.0",
+  "license": "MIT",
+  "exports": {
+    "./feedbacks": "./src/feedbacks.ts"
+  },
+  "scripts": {
+    "lint": "tsc --noEmit && eslint \"src/**/*.ts*\" --max-warnings 0",
+    "build": "tsc"
+  }
+}

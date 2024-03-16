@@ -3,8 +3,9 @@ import {
   FetchFeedbacksQuery,
 } from "@/api/types/graphql";
 import { FeedbackFeed } from "@/features/FeedbackFeed";
-import { useFetcher } from "@remix-run/react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { useSse } from "./useSse";
+import { useLoadMore } from "./useLoadMore";
 
 type Props = {
   data: FetchFeedbacksQuery["feedbacks"];
@@ -14,35 +15,17 @@ export const Feed = ({ data }: Props) => {
   const [list, setList] = useState<FeedbackFeedItemFragment[]>(
     () => data.data as FeedbackFeedItemFragment[],
   );
-  const [nextCursor, setNextCursor] = useState<string | null>(
-    () => data.nextCursor,
-  );
-  const fetcher = useFetcher<{ feedbacks: FetchFeedbacksQuery["feedbacks"] }>();
 
-  useEffect(() => {
-    if (!fetcher.data || fetcher.state === "loading") {
-      return;
-    }
+  const { loadMore, isLoading } = useLoadMore(data.nextCursor, setList);
 
-    if (fetcher.data) {
-      const newItems = fetcher.data.feedbacks
-        .data as FeedbackFeedItemFragment[];
-
-      setList((prev) => [...prev, ...newItems]);
-      setNextCursor(fetcher.data.feedbacks.nextCursor);
-    }
-  }, [fetcher, setList]);
-
-  const loadMore = () => {
-    fetcher.load(`?index&cursor=${nextCursor || ""}`);
-  };
+  useSse(list, setList);
 
   return (
     <FeedbackFeed
       data={list}
       loadMore={loadMore}
       total={data.total}
-      loading={fetcher.state === "loading"}
+      loading={isLoading}
     />
   );
 };

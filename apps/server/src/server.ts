@@ -1,5 +1,7 @@
 import Fastify from "fastify";
 import { initializeGraphQL } from "./graphql";
+import { initializeRealtime } from "./graphql/sse";
+import cors from "@fastify/cors";
 
 (async () => {
   const server = Fastify({
@@ -10,9 +12,15 @@ import { initializeGraphQL } from "./graphql";
     },
   });
 
-  await initializeGraphQL(server);
+  server.register(cors, {
+    preflightContinue: false,
+    optionsSuccessStatus: 204,
+  });
 
-  const port = +process.env.PORT || 3000;
+  await initializeGraphQL(server);
+  initializeRealtime(server);
+
+  const port = +(process.env.PORT ?? "") || 3000;
 
   server.listen({ port });
 })();

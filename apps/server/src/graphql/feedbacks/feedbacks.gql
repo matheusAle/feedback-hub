@@ -33,4 +33,5 @@ type Mutation {
 
 type Query {
     feedbacks(input: FeedbacksInput!): FeedbacksResponse!
+    feedback(id: String!): Feedback!
 }

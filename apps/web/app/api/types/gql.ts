@@ -19,7 +19,7 @@ const documents = {
     "\n    query Events {\n      events {\n        id\n        name\n      }\n    }\n  ": types.EventsDocument,
     "\n    mutation CreateFeedback($input: CreateFeedbackInput!) {\n      createFeedback(input: $input) {\n        id\n      }\n    }\n  ": types.CreateFeedbackDocument,
     "\n    query FetchFeedbacks($input: FeedbacksInput!) {\n      feedbacks(input: $input) {\n        nextCursor\n        total\n        data {\n          ...FeedbackFeedItem\n        }\n      }\n    }\n    \n  ": types.FetchFeedbacksDocument,
-    "\n  query Events {\n    events {\n      id\n      name\n    }\n  }\n": types.EventsDocument,
+    "\n    query GetFeedbackById($id: String!) {\n      feedback(id: $id) {\n        ...FeedbackFeedItem\n      }\n    }\n    \n  ": types.GetFeedbackByIdDocument,
     "\n  fragment FeedbackFeedItem on Feedback {\n    id\n    rate\n    content\n    createdAt\n    user {\n      id\n      username\n    }\n    event {\n      id\n      name\n    }\n  }\n": types.FeedbackFeedItemFragmentDoc,
 };
 
@@ -64,7 +64,7 @@ export function graphql(source: "\n    query FetchFeedbacks($input: FeedbacksInp
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  query Events {\n    events {\n      id\n      name\n    }\n  }\n"): (typeof documents)["\n  query Events {\n    events {\n      id\n      name\n    }\n  }\n"];
+export function graphql(source: "\n    query GetFeedbackById($id: String!) {\n      feedback(id: $id) {\n        ...FeedbackFeedItem\n      }\n    }\n    \n  "): (typeof documents)["\n    query GetFeedbackById($id: String!) {\n      feedback(id: $id) {\n        ...FeedbackFeedItem\n      }\n    }\n    \n  "];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

@@ -6,6 +6,8 @@ import {
   FeedbacksInput,
   FetchFeedbacksQuery,
   FetchFeedbacksQueryVariables,
+  GetFeedbackByIdQuery,
+  GetFeedbackByIdQueryVariables,
 } from "./types/graphql";
 import { FeedbackFeedItemFragment } from "@/features/FeedbackFeed";
 import { client } from "./serverClient";
@@ -42,10 +44,25 @@ export const fetchFeedbacks = (input: FeedbacksInput) => {
     ${FeedbackFeedItemFragment}
   `;
 
-  console.log("input", input);
   return client.request<FetchFeedbacksQuery, FetchFeedbacksQueryVariables>(
     query,
     { input },
+  );
+};
+
+export const getFeedbackById = (id: string) => {
+  const query = gql`
+    query GetFeedbackById($id: String!) {
+      feedback(id: $id) {
+        ...FeedbackFeedItem
+      }
+    }
+    ${FeedbackFeedItemFragment}
+  `;
+
+  return client.request<GetFeedbackByIdQuery, GetFeedbackByIdQueryVariables>(
+    query,
+    { id },
   );
 };
 
