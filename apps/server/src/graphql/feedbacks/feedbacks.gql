@@ -3,7 +3,10 @@ type Feedback {
     content: String!
     rate: Int!
     user: User!
+    userId: String!
     event: Event!
+    eventId: String!
+    createdAt: DateTime!
 }
 
 
@@ -15,13 +18,13 @@ input CreateFeedbackInput {
 
 input FeedbacksInput {
     take: Int!
-    cursor: String
+    cursor: DateTime
 }
 
 type FeedbacksResponse {
     data: [Feedback!]!
-    hasMore: Boolean!
-    nextCursor: String
+    total: Int!
+    nextCursor: DateTime
 }
 
 type Mutation {

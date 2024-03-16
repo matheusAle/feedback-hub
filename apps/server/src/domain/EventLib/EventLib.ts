@@ -7,6 +7,6 @@ export const createEvent = async (data: CreateEventInput) => {
   return Repository.createEvent(validData);
 };
 
-export { getAllEvents } from "./repository";
+export { getAllEvents, getEventsByIds } from "./repository";
 
 export * as EventLib from "./EventLib";

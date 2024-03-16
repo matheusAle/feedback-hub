@@ -17,6 +17,11 @@ export const getEventById = async (id: string) => {
   return event;
 };
 
+export const getEventsByIds = async (ids: string[]) =>
+  db.query.events.findMany({
+    where: (events, { inArray }) => inArray(events.id, ids),
+  });
+
 export const getAllEvents = async () => {
   return db.query.events.findMany();
 };

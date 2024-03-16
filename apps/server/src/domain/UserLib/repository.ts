@@ -22,6 +22,12 @@ export const getUserById = async (id: string) => {
   return user;
 };
 
+export const getUsersByIds = async (ids: string[]) =>
+  db.query.users.findMany({
+    columns: { id: true, name: true, username: true },
+    where: (users, { inArray }) => inArray(users.id, ids),
+  });
+
 export const getUsers = () =>
   db.query.users.findMany({
     columns: {

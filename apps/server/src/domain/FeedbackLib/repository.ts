@@ -1,5 +1,5 @@
-import { db, feedbacks } from "@repo/db";
-import { CreateFeedbackInput } from "./types";
+import { db, feedbacks, sql } from "@repo/db";
+import { CreateFeedbackInput, FeedbacksInput } from "./types";
 import { v4 } from "uuid";
 
 export const createFeedback = async (data: CreateFeedbackInput) => {
@@ -21,6 +21,22 @@ export const findFeedbackById = async (id: string) => {
     throw new Error("Feedback not found");
   }
   return feedback;
+};
+
+export const findFeedbacks = async ({ take, cursor }: FeedbacksInput) => {
+  return db.query.feedbacks.findMany({
+    limit: take,
+    where: cursor
+      ? (feedbacks, { gt }) => gt(feedbacks.createdAt, new Date(cursor))
+      : undefined,
+  });
+};
+
+export const countFeedbacks = async () => {
+  const [{ count }] = await db
+    .select({ count: sql`count(*)`.mapWith(Number) })
+    .from(feedbacks);
+  return count;
 };
 
 export * as Repository from "./repository";

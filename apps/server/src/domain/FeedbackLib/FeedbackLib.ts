@@ -8,4 +8,6 @@ export const createFeedback = async (data: CreateFeedbackInput) => {
   return Repository.createFeedback(validData);
 };
 
+export { findFeedbacks, countFeedbacks } from "./repository";
+
 export * as FeedbackLib from "./FeedbackLib";

@@ -9,6 +9,6 @@ export const createUser = async (data: CreateUserInput) => {
   return Repository.createUser({ ...validData, password });
 };
 
-export { getUsers } from "./repository";
+export { getUsers, getUsersByIds } from "./repository";
 
 export * as UserLib from "./UserLib";
