@@ -1,0 +1,18 @@
+input LoginInput {
+    username: String!
+    password: String!
+}
+
+type LoginResponse {
+    user: User!
+    token: String!
+}
+
+type Mutation {
+    login(input: LoginInput!): LoginResponse!
+    logout: Boolean @auth
+}
+
+type Query {
+    me: User @auth
+}

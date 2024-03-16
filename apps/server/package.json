@@ -2,28 +2,35 @@
   "name": "server",
   "version": "1.0.0",
   "license": "MIT",
+  "main": "src/server.ts",
   "scripts": {
-    "dev": "PORT=7001 nodemon --exec \"node -r esbuild-register ./src/server.ts\" -e .ts",
+    "dev": "PORT=7001 tsx watch src/server.ts",
     "lint": "tsc --noEmit && eslint \"src/**/*.ts*\" --max-warnings 0",
-    "build": "tsc"
+    "build": "tsc",
+    "db:migrate": "drizzle-kit generate:sqlite",
+    "db:update": "tsx ./src/db/migrate.ts"
   },
   "dependencies": {
     "@fastify/one-line-logger": "^1.2.0",
     "@graphql-tools/load-files": "^7.0.0",
     "@graphql-tools/merge": "^9.0.3",
-    "add": "^2.0.6",
-    "esbuild": "^0.20.1",
-    "esbuild-register": "^3.5.0",
+    "@repo/db": "*",
+    "bcryptjs": "^2.4.3",
     "fastify": "^4.26.2",
     "graphql": "^16.8.1",
     "graphql-scalars": "^1.22.5",
+    "jsonwebtoken": "^9.0.2",
     "mercurius": "^13.4.0",
+    "mercurius-auth": "^5.0.0",
     "mercurius-codegen": "^5.0.4",
-    "yarn": "^1.22.22"
+    "uuid": "^9.0.1"
   },
   "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
+    "@types/bcryptjs": "^2.4.6",
+    "@types/jsonwebtoken": "^9.0.6",
     "@types/node": "^20.11.27",
-    "nodemon": "^3.1.0",
-    "ts-node": "^10.9.2"
+    "@types/uuid": "^9.0.8",
+    "tsx": "^4.7.1"
   }
 }
