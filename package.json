@@ -4,7 +4,10 @@
     "build": "turbo build",
     "dev": "turbo dev",
     "lint": "turbo lint",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "db:migrate": "turbo run migrate --filter=db",
+    "db:update": "turbo run update --filter=db",
+    "web:codegen": "turbo run codegen --filter=web"
   },
   "devDependencies": {
     "eslint": "^8.57.0",
