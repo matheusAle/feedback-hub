@@ -9,12 +9,11 @@ import { getResolvers, getSchema } from "@/utils/graphql";
 import { User } from "@/generated/graphql";
 import { AuthLib } from "@/domain/AuthLib";
 
-export type Context = {
-  auth: { user: User | null; sessionId: string | null };
-};
-
-declare module "mercurius" {
-  interface MercuriusContext extends Context {}
+declare module "mercurius-auth" {
+  interface MercuriusAuthContext extends Record<string, unknown> {
+    user: User | null;
+    sessionId: string | null;
+  }
 }
 
 export async function initializeGraphQL(fastify: FastifyInstance) {
