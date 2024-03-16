@@ -5,7 +5,7 @@ import mercuriusAuth from "mercurius-auth";
 
 import fs from "node:fs";
 
-import { getResolvers, getSchema } from "@/utils/graphql";
+import { getResolversAndLoaders, getSchema } from "@/utils/graphql";
 import { User } from "@/generated/graphql";
 import { AuthLib } from "@/domain/AuthLib";
 
@@ -17,14 +17,18 @@ declare module "mercurius-auth" {
 }
 
 export async function initializeGraphQL(fastify: FastifyInstance) {
-  const [schema, resolvers] = await Promise.all([getSchema(), getResolvers()]);
+  const [schema, { resolvers, loaders }] = await Promise.all([
+    getSchema(),
+    getResolversAndLoaders(),
+  ]);
 
   fastify
     .register(mercurius, {
       path: "/graphql",
       graphiql: true,
       schema,
-      resolvers,
+      resolvers: resolvers,
+      loaders,
       errorFormatter: (error, ctx) => {
         return mercurius.defaultErrorFormatter(error, ctx);
       },
@@ -64,6 +68,6 @@ export async function initializeGraphQL(fastify: FastifyInstance) {
   });
 
   if (fs.existsSync("src/generated/schema.gql"))
-    fs.rmSync("src/generated/schema.gql");
+    fs.rmSync("src/generated/schema.gql", { force: true });
   fs.writeFileSync("src/generated/schema.gql", schema);
 }
