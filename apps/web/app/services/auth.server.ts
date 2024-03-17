@@ -48,7 +48,11 @@ export const isAuthenticatedFromRequest = async (
 
 export const logoutFromRequest = async (request: Request) => {
   const client = await createClient(request);
-  await AuthApi.logout(client);
+  try {
+    await AuthApi.logout(client);
+  } catch (error) {
+    // ignore - we're logging out anyway
+  }
   return await authenticator.logout(request, {
     redirectTo: "/",
   });
