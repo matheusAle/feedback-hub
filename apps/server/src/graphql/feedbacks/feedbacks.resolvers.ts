@@ -17,7 +17,7 @@ export const mutation: MutationResolvers = {
 
 export const query: QueryResolvers = {
   async feedbacks(_, { input }) {
-    const [data, total] = await Promise.all([
+    const [data = [], total] = await Promise.all([
       FeedbackLib.findFeedbacks(input),
       FeedbackLib.countFeedbacks(input),
     ]);
