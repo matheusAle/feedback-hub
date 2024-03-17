@@ -19,13 +19,15 @@ export const query: QueryResolvers = {
   async feedbacks(_, { input }) {
     const [data, total] = await Promise.all([
       FeedbackLib.findFeedbacks(input),
-      FeedbackLib.countFeedbacks(),
+      FeedbackLib.countFeedbacks(input),
     ]);
 
     return {
       data,
       total,
       nextCursor: data?.at(-1)?.createdAt ?? null,
+      rate: input.rate,
+      eventId: input.eventId,
     };
   },
   feedback(_, { id }) {

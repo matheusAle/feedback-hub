@@ -9,28 +9,50 @@ type SelectOption = {
   label: string;
 };
 
-type Props = React.InputHTMLAttributes<HTMLSelectElement> & {
-  label: string;
+export type FormSelectProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
+  label?: string;
   options: SelectOption[];
+  required?: boolean;
+  value?: string | null;
+  placeholder?: string;
 };
 
-export const FormSelect = React.forwardRef<HTMLSelectElement, Props>(
+export const FormSelect = React.forwardRef<HTMLSelectElement, FormSelectProps>(
   function FormSelect(
-    { className, label, options, required, disabled, name, ...rest },
+    {
+      className,
+      label,
+      options,
+      required,
+      disabled,
+      name,
+      placeholder,
+      value,
+      ...rest
+    },
     ref,
   ) {
     const [selected, setSelected] = useState<SelectOption | null>(null);
+
+    React.useEffect(() => {
+      setSelected(options.find((option) => option.value === value) || null);
+    }, [value, options]);
 
     return (
       <div className="relative">
         <Listbox value={selected} onChange={setSelected} ref={ref}>
           {({ open }) => (
             <div className={clsx("form-control w-full", className)}>
-              <Listbox.Label className="label">
-                <span className="label-text">{label}</span>
-              </Listbox.Label>
-              <Listbox.Button className="select select-bordered block truncate text-left">
-                {selected?.label || rest.placeholder || " "}
+              {label && (
+                <Listbox.Label className="label">
+                  <span className="label-text">{label}</span>
+                </Listbox.Label>
+              )}
+              <Listbox.Button
+                className="select select-bordered block truncate text-left"
+                onClick={rest.onClick}
+              >
+                {selected?.label || placeholder || " "}
               </Listbox.Button>
               <div className="relative">
                 <Transition
@@ -87,45 +109,43 @@ export const FormSelect = React.forwardRef<HTMLSelectElement, Props>(
           )}
         </Listbox>
 
-        {required && (
+        <div
+          className="isolate opacity-0 select-none"
+          aria-hidden="true"
+          tabIndex={-1}
+          style={Object.assign(
+            {},
+            { cursor: `${disabled ? "not-allowed" : "pointer"}` },
+          )}
+        >
           <div
-            className="isolate opacity-0 select-none"
+            className="absolute z-10 w-full h-[1px] bottom-[15px] opacity-0 left-0"
             aria-hidden="true"
             tabIndex={-1}
-            style={Object.assign(
-              {},
-              { cursor: `${disabled ? "not-allowed" : "pointer"}` },
-            )}
+          ></div>
+          <select
+            disabled={disabled}
+            onClick={() => {}}
+            onChange={() => {}}
+            tabIndex={-1}
+            value={selected === null ? undefined : selected?.value}
+            name={name}
+            required={required}
+            aria-hidden="true"
+            autoCapitalize="off"
+            autoComplete="off"
+            className="w-full z-0 h-[1px] select-none text-transparent bg-transparent absolute bottom-[15px] left-0 !outline-none opacity-0 shadow-none appearance-none"
           >
-            <div
-              className="absolute z-10 w-full h-[1px] bottom-[15px] opacity-0 left-0"
-              aria-hidden="true"
-              tabIndex={-1}
-            ></div>
-            <select
-              disabled={disabled}
-              onClick={() => {}}
-              onChange={() => {}}
-              tabIndex={-1}
-              value={selected === null ? undefined : selected?.value}
-              name={name}
-              required={required}
-              aria-hidden="true"
-              autoCapitalize="off"
-              autoComplete="off"
-              className="w-full z-0 h-[1px] select-none text-transparent bg-transparent absolute bottom-[15px] left-0 !outline-none opacity-0 shadow-none appearance-none"
-            >
-              <option value="" defaultChecked aria-hidden="true"></option>
-              {options.map((e, i: number) => {
-                return (
-                  <option key={i} value={e.value} aria-hidden="true">
-                    {e.label}
-                  </option>
-                );
-              })}
-            </select>
-          </div>
-        )}
+            <option value="" defaultChecked aria-hidden="true"></option>
+            {options.map((e, i: number) => {
+              return (
+                <option key={i} value={e.value} aria-hidden="true">
+                  {e.label}
+                </option>
+              );
+            })}
+          </select>
+        </div>
       </div>
     );
   },

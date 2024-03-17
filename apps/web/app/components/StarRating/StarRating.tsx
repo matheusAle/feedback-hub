@@ -26,7 +26,7 @@ export const StarRating = ({
       className={clsx("flex items-center flex-row space-x-2", className)}
       onMouseLeave={() => setIsHovering(-1)}
     >
-      {[0, 1, 2, 3, 4].map((i) => (
+      {[1, 2, 3, 4, 5].map((i) => (
         <motion.div
           onMouseOver={() => setIsHovering(i)}
           onClick={() => setRate?.(i)}

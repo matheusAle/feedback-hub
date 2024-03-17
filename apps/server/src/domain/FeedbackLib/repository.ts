@@ -1,4 +1,4 @@
-import { db, feedbacks, sql } from "@repo/db";
+import { and, db, feedbacks, lt, sql, eq } from "@repo/db";
 import { CreateFeedbackInput, FeedbacksInput } from "./types";
 import { v4 } from "uuid";
 
@@ -23,20 +23,41 @@ export const findFeedbackById = async (id: string) => {
   return feedback;
 };
 
-export const findFeedbacks = async ({ take, cursor }: FeedbacksInput) => {
+const _getFilterWhere = (
+  filter: Pick<FeedbacksInput, "cursor" | "rate" | "eventId">,
+) => {
+  const list = [];
+
+  if (filter.cursor)
+    list.push(lt(feedbacks.createdAt, new Date(filter.cursor)));
+
+  if (filter.rate) list.push(eq(feedbacks.rate, filter.rate));
+
+  if (filter.eventId) list.push(eq(feedbacks.eventId, filter.eventId));
+
+  return and(...list);
+};
+
+export const findFeedbacks = async ({
+  take,
+  cursor,
+  rate,
+  eventId,
+}: FeedbacksInput) => {
+  const where = _getFilterWhere({ cursor, rate, eventId });
   return db.query.feedbacks.findMany({
     limit: take,
     orderBy: (posts, { desc }) => desc(posts.createdAt),
-    where: cursor
-      ? (feedbacks, { lt }) => lt(feedbacks.createdAt, new Date(cursor))
-      : undefined,
+    where,
   });
 };
 
-export const countFeedbacks = async () => {
+export const countFeedbacks = async ({ eventId, rate }: FeedbacksInput) => {
+  const where = _getFilterWhere({ eventId, rate });
   const [{ count }] = await db
     .select({ count: sql`count(*)`.mapWith(Number) })
-    .from(feedbacks);
+    .from(feedbacks)
+    .where(where);
   return count;
 };
 

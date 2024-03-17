@@ -19,12 +19,16 @@ input CreateFeedbackInput {
 input FeedbacksInput {
     take: Int!
     cursor: DateTime
+    eventId: String
+    rate: Int
 }
 
 type FeedbacksResponse {
     data: [Feedback!]!
     total: Int!
     nextCursor: DateTime
+    eventId: String
+    rate: Int
 }
 
 type Mutation {

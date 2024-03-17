@@ -4,12 +4,12 @@ import { Logo } from "@/components/Logo";
 import { FormTextArea } from "@/components/FormTextArea";
 import { ActionError } from "@/features/ActionError";
 import { useIsActionRunning } from "@/hooks/useIsActionRunning";
-import { Form, useLoaderData } from "@remix-run/react";
-import { FormSelect } from "@/components/FormSelect";
+import { Form } from "@remix-run/react";
 import { ActionFunctionArgs, redirect } from "@remix-run/node";
 import { FeedbacksApi } from "@/api/feedbacks";
 import { FormStarRating } from "@/components/FormStarRating";
 import { createClient } from "@/api/serverClient";
+import { FormEventSelect } from "@/features/FormEventSelect";
 
 export const action = async ({ request }: ActionFunctionArgs) => {
   const body = await request.formData();
@@ -48,7 +48,7 @@ export const loader = async () => {
 export const ErrorBoundary = () => <Screen />;
 
 export default function Screen() {
-  const { events } = useLoaderData<typeof loader>();
+  // const { events } = useLoaderData<typeof loader>();
   const isLoading = useIsActionRunning("/feedback/post");
 
   return (
@@ -60,7 +60,14 @@ export default function Screen() {
             <h1 className="card-title">Feedback Hub</h1>
           </div>
           <Form method="post">
-            <FormSelect
+            <FormEventSelect
+              label="Event"
+              name="event"
+              required
+              placeholder="Select event"
+            />
+
+            {/* <FormSelect
               label="Event"
               name="event"
               required
@@ -68,7 +75,7 @@ export default function Screen() {
                 value: event.id,
                 label: event.name,
               }))}
-            />
+            /> */}
 
             <FormStarRating label="Rating" name="rating" required />
 

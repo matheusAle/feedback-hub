@@ -3,7 +3,7 @@ import {
   FetchFeedbacksQuery,
 } from "@/api/types/graphql";
 import { FeedbackFeed } from "@/features/FeedbackFeed";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSse } from "./useSse";
 import { useLoadMore } from "./useLoadMore";
 
@@ -18,7 +18,13 @@ export const Feed = ({ data }: Props) => {
 
   const { loadMore, isLoading } = useLoadMore(data.nextCursor, setList);
 
-  useSse(list, setList);
+  useSse(list, setList, data);
+
+  useEffect(() => {
+    if (data.data) {
+      setList(data.data as FeedbackFeedItemFragment[]);
+    }
+  }, [data.data, setList]);
 
   return (
     <FeedbackFeed

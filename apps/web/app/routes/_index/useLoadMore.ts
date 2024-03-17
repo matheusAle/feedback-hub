@@ -30,7 +30,13 @@ export const useLoadMore = (
   }, [fetcher, setList]);
 
   const loadMore = () => {
-    fetcher.load(`?index&cursor=${nextCursor || ""}`);
+    const url = new URLSearchParams();
+
+    url.set("cursor", nextCursor || "");
+    url.set("eventId", fetcher.data?.feedbacks.eventId || "");
+    url.set("rate", fetcher.data?.feedbacks.rate?.toString() || "");
+
+    fetcher.load(`?index&${url.toString()}`);
   };
 
   return {

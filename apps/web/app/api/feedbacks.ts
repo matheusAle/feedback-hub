@@ -36,6 +36,8 @@ export const fetchFeedbacks = (input: FeedbacksInput) => {
       feedbacks(input: $input) {
         nextCursor
         total
+        eventId
+        rate
         data {
           ...FeedbackFeedItem
         }
