@@ -33,14 +33,12 @@ export default function Screen() {
               name="username"
               required
               pattern="^\S+$"
-              defaultValue="matheus_1"
             />
             <FormField
               className="mb-6"
               label="Password"
               name="password"
               type="password"
-              defaultValue="123456"
               required
             />
 
