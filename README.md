@@ -19,9 +19,10 @@ The app consists of four main pages:
 3. Register: New users can register an account to gain access to the app.
 4. Create New Feedback: Once logged in, users can create new feedback to share their thoughts and opinions.
 
-To get started with the app, follow these steps:
 
-1. Install the dependencies by running the following command in your terminal:
+## get start
+
+### 1.  Install the dependencies 
 
 ```sh
 yarn install
